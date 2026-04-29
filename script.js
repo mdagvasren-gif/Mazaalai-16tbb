@@ -8,6 +8,7 @@ const revealItems = document.querySelectorAll(".reveal");
 const navLinks = document.querySelectorAll(".site-nav a[href^='#']");
 const membersMarquee = document.querySelector(".members-marquee");
 const routeCards = document.querySelectorAll(".route-card");
+const countUps = document.querySelectorAll(".count-up");
 const finePointer = window.matchMedia("(pointer: fine)");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const registrationMessengerUrl = "https://m.me/61588884091387";
@@ -37,7 +38,7 @@ const updateHeroScroll = () => {
   const distance = Math.max(360, window.innerHeight * 0.62);
   const progress = smooth(clamp(-rect.top / distance));
   const isMobile = window.innerWidth <= 620;
-  const copyLift = isMobile ? 78 : 245;
+  const copyLift = isMobile ? 58 : 145;
   const logoLift = isMobile ? 42 : 96;
 
   hero.style.setProperty("--hero-logo-opacity", String(1 - progress));
@@ -201,6 +202,49 @@ const revealObserver = new IntersectionObserver(
 );
 
 revealItems.forEach((item) => revealObserver.observe(item));
+
+const formatCount = (value) => new Intl.NumberFormat("en-US").format(Math.round(value));
+
+const animateCount = (element) => {
+  const target = Number(element.dataset.count || "0");
+  const suffix = element.dataset.suffix || "";
+  const duration = target > 999 ? 2600 : 1900;
+  const startTime = performance.now();
+  let displayedValue = 0;
+  element.classList.add("is-counting");
+
+  const tick = (now) => {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 4);
+    const nextValue = target * eased;
+    displayedValue += (nextValue - displayedValue) * 0.34;
+    element.textContent = `${formatCount(displayedValue)}${suffix}`;
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      element.textContent = `${formatCount(target)}${suffix}`;
+      element.classList.remove("is-counting");
+    }
+  };
+
+  requestAnimationFrame(tick);
+};
+
+if (countUps.length) {
+  const countObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        animateCount(entry.target);
+        countObserver.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.65 },
+  );
+
+  countUps.forEach((item) => countObserver.observe(item));
+}
 
 if (membersMarquee) {
   const membersTrack = membersMarquee.querySelector(".members-track");
