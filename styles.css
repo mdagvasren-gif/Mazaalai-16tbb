@@ -1014,8 +1014,8 @@ h3 {
   gap: clamp(28px, 6vw, 78px);
   padding: clamp(74px, 9vw, 124px) clamp(20px, 6vw, 80px);
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.86)),
-    url("https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1800&q=80") center / cover;
+    linear-gradient(90deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.82)),
+    url("https://commons.wikimedia.org/wiki/Special:FilePath/Climbing_through_the_Yellow_Band%2C_Mt._Everest%2C_-May_2007_a.jpg") center 42% / cover;
 }
 
 .join-content p:not(.eyebrow) {
@@ -1088,6 +1088,8 @@ h3 {
 .form-note {
   min-height: 24px;
   color: var(--bronze);
+  font-size: 14px;
+  line-height: 1.45;
 }
 
 .button {
@@ -1136,11 +1138,36 @@ h3 {
 
 .site-footer {
   display: flex;
-  justify-content: space-between;
-  gap: 18px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 16px;
   padding: 26px clamp(20px, 5vw, 80px);
+  text-align: center;
   color: #ffffff;
   background: var(--ink);
+}
+
+.footer-brand,
+.footer-rights {
+  margin: 0;
+}
+
+.footer-brand {
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.footer-rights {
+  max-width: 760px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 14px;
+}
+
+.footer-rights::before {
+  margin-right: 16px;
+  color: rgba(255, 255, 255, 0.36);
+  content: "|";
 }
 
 .reveal {
@@ -1215,7 +1242,7 @@ h3 {
 
 @media (max-width: 900px) {
   .hero-copy h1 {
-    font-size: 58px;
+    font-size: clamp(46px, 9vw, 58px);
   }
 
   .nav-toggle {
@@ -1262,15 +1289,19 @@ h3 {
     padding-top: 78px;
     padding-bottom: 78px;
   }
+
+  .join-section {
+    background-position: 58% center;
+  }
 }
 
 @media (max-width: 620px) {
   .hero-copy h1 {
-    font-size: 38px;
+    font-size: clamp(34px, 9.2vw, 42px);
   }
 
   .scroll-cue {
-    margin-top: 42px;
+    margin-top: 28px;
   }
 
   .brand span:last-child {
@@ -1289,17 +1320,22 @@ h3 {
   }
 
   .hero {
-    min-height: 112vh;
-    padding-top: 104px;
+    min-height: 108vh;
+    padding-top: 92px;
+    padding-bottom: 42px;
   }
 
   .logo-hero-stage {
-    top: 86px;
-    margin-top: -34px;
+    top: 78px;
+    margin-top: -28px;
   }
 
   .hero-logo {
-    width: min(520px, 88vw);
+    width: min(460px, 86vw);
+  }
+
+  .hero-copy {
+    gap: 6px;
   }
 
   .section-heading,
@@ -1327,8 +1363,8 @@ h3 {
   }
 
   .route-card {
-    width: min(78vw, 310px);
-    height: 360px;
+    width: min(82vw, 300px);
+    height: 338px;
     scroll-snap-align: center;
   }
 
@@ -1342,6 +1378,19 @@ h3 {
   .join-actions {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .join-section {
+    gap: 22px;
+    padding: 62px 18px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.86)),
+      url("https://commons.wikimedia.org/wiki/Special:FilePath/Climbing_through_the_Yellow_Band%2C_Mt._Everest%2C_-May_2007_a.jpg") 58% center / cover;
+  }
+
+  .join-content p:not(.eyebrow) {
+    margin-top: 12px;
+    font-size: 16px;
   }
 
   .join-form {
@@ -1367,10 +1416,23 @@ h3 {
   .site-footer {
     flex-direction: column;
   }
+
+  .footer-rights::before {
+    content: "";
+    margin-right: 0;
+  }
 }
 
 @media (max-width: 430px) {
   .hero-copy h1 {
-    font-size: 31px;
+    font-size: clamp(29px, 8.2vw, 33px);
+  }
+
+  .hero-logo {
+    width: min(410px, 90vw);
+  }
+
+  .route-card {
+    width: min(86vw, 292px);
   }
 }
