@@ -8,13 +8,9 @@ const revealItems = document.querySelectorAll(".reveal");
 const navLinks = document.querySelectorAll(".site-nav a[href^='#']");
 const membersMarquee = document.querySelector(".members-marquee");
 const routeCards = document.querySelectorAll(".route-card");
-const routeModal = document.querySelector("#route-modal");
-const routeModalTitle = document.querySelector("#route-modal-title");
-const routeModalSummary = document.querySelector("#route-modal-summary");
-const routeModalMeta = document.querySelector("#route-modal-meta");
-const routeModalPrep = document.querySelector("#route-modal-prep");
 const finePointer = window.matchMedia("(pointer: fine)");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const registrationMessengerUrl = "https://m.me/61588884091387";
 const darkToneSections = document.querySelectorAll(
   ".mission-section, .routes-section, .team-section, .members-section, .site-footer",
 );
@@ -250,11 +246,31 @@ if (membersMarquee) {
 }
 
 if (form && formNote) {
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(form);
-    const name = String(data.get("name") || "Танд").trim();
-    formNote.textContent = `${name || "Танд"}, баярлалаа. Мазаалай 16 клуб удахгүй танд мэдээлэл илгээнэ.`;
+    const name = String(data.get("name") || "").trim();
+    const phone = String(data.get("phone") || "").trim();
+    const level = String(data.get("level") || "").trim();
+    const message = [
+      "Сайн байна уу, Мазаалай 16.",
+      "",
+      "Клуб-д бүртгүүлэх хүсэлт илгээж байна.",
+      `Нэр: ${name || "-"}`,
+      `Утасны дугаар: ${phone || "-"}`,
+      `Сонирхол: ${level || "-"}`,
+      "",
+      "Баярлалаа.",
+    ].join("\n");
+
+    try {
+      await navigator.clipboard?.writeText(message);
+      formNote.textContent = `${name || "Таны"} мэдээлэл clipboard-д хуулагдлаа. Messenger нээгдэхэд шууд paste хийгээд илгээгээрэй.`;
+    } catch (error) {
+      formNote.textContent = `${name || "Таны"} мэдээллээр Messenger нээгдэж байна. Хэрэв текст автоматаар гарахгүй бол дахин бөглөж илгээнэ үү.`;
+    }
+
+    window.open(`${registrationMessengerUrl}?text=${encodeURIComponent(message)}`, "_blank", "noopener");
     form.reset();
   });
 }
